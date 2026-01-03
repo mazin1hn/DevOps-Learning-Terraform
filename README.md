@@ -24,6 +24,30 @@ Terraform/
 │
 └── README.md
 ```
+## Assignments
+
+| Assignment | Description |
+|-----------|-------------|
+| [Assingment 1](./assignment-1)| Deploy WordPress on AWS using Terraform and user data |
+| [Assingment 2](./assignment-2) | Deploy and configure EC2 using Terraform and cloud-init |
+
+Each assignment contains a dedicated `README.md` with detailed explanations, architecture descriptions, and implementation evidence.
+
+
+
+
+
+## Key Concepts Demonstrated
+
+- Infrastructure as Code (IaC)
+- Modular Terraform design
+- AWS networking fundamentals
+- Secure access and security group design
+- Automated EC2 bootstrapping
+- User data vs cloud-init configuration
+- Debugging Terraform and instance boot issues
+- Reproducible and version-controlled infrastructure
+
 
 ## Technologies Used
 
@@ -40,28 +64,6 @@ Terraform/
 
 
 
-## Key Concepts Demonstrated
-
-- Infrastructure as Code (IaC)
-- Modular Terraform design
-- AWS networking fundamentals
-- Secure access and security group design
-- Automated EC2 bootstrapping
-- User data vs cloud-init configuration
-- Debugging Terraform and instance boot issues
-- Reproducible and version-controlled infrastructure
-
-
-## Assignments
-
-| Assignment | Description |
-|-----------|-------------|
-| [Assingment 1](./assignment-1)| Deploy WordPress on AWS using Terraform and user data |
-| [Assingment 2](./assignment-2) | Deploy and configure EC2 using Terraform and cloud-init |
-
-Each assignment contains a dedicated `README.md` with detailed explanations, architecture descriptions, and implementation evidence.
-
----
 
 ## Notes
 
@@ -70,7 +72,7 @@ Each assignment contains a dedicated `README.md` with detailed explanations, arc
 - No credentials or sensitive data are stored in this repo
 - All deployments are intended for learning and demonstration purposes only
 
----
+
 
 ## Documentation Used
 
