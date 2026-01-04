@@ -3,7 +3,7 @@
 *.tfstate
 *.tfstate.backup
 *.tfstate.*
-
+*.terraform.lock.hcl
 # Terraform variable files (secrets)
 *.tfvars
 *.tfvars.json
