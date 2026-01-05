@@ -1,5 +1,5 @@
-module "ec2" {
-    source = "./modules/ec2"
+module "vpc" {
+    source = "./modules/vpc/"
 
     vpc_cidr_block = var.vpc_cidr_block
     vpc_tags = var.vpc_tags
@@ -9,6 +9,16 @@ module "ec2" {
 
     igw_tags = var.igw_tags
     route_table_tags = var.route_table_tags
+
+}
+
+module "ec2" {
+    source = "./modules/ec2/"
+
+    vpc_id = module.vpc.vpc_id
+    subnet_id = module.vpc.subnet_id
+
+
 
     ingress_rules = var.ingress_rules
     egress_rules = var.egress_rules
@@ -22,12 +32,10 @@ module "ec2" {
     associate_public_ip_address = var.associate_public_ip_address
     user_data_path = var.user_data_path
 
-
+}
 
 
 
 
 
   
-
-}
