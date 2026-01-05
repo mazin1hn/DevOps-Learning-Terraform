@@ -1,19 +1,19 @@
-# Assignment 2 – EC2 Deployment Using Cloud-Init
+# Assignment 1 – Deploy WordPress Using Terraform
 
 ## Objective
 
-The objective of this assignment is to deploy and configure an **EC2 instance on AWS** using **Terraform and cloud-init**, demonstrating how instance configuration can be fully automated at boot time without any manual intervention.
+The objective of this assignment is to deploy a fully functional **WordPress stack on AWS** using **Terraform**, demonstrating how Infrastructure as Code (IaC) can be used to provision and configure real cloud infrastructure end-to-end.
 
 The deployment includes:
-- An EC2 instance provisioned using Terraform
-- Security groups for controlled access
-- A cloud-init YAML configuration to install and configure software on boot
+- An EC2 instance running WordPress
+- Security groups
+- User data to install and configure dependencies
 - A working public endpoint
 - All resources provisioned via Terraform
 
 All infrastructure in this assignment was provisioned and managed **exclusively using Terraform**, with no manual configuration performed via the AWS Console.
 
-This assignment demonstrates how Terraform integrates with **cloud-init** to automate instance configuration.
+This assignment demonstrates how Terraform manages real infrastructure from provisioning to application deployment.
 
 
 
@@ -24,10 +24,12 @@ This deployment consists of:
 - A custom **VPC** with a public subnet  
 - An **Internet Gateway** and public route table  
 - A **Security Group** allowing HTTP and SSH access  
-- An **EC2 instance** configured automatically using cloud-init  
-- Application services installed and started during first boot  
+- An **EC2 instance** running Docker  
+- **WordPress and MySQL** deployed using Docker Compose  
+- A **user data script** to automate configuration on first boot  
 
 Terraform modules are used to separate infrastructure logic from environment-specific configuration.
+
 
 
 ## Folder Structure
@@ -46,7 +48,7 @@ assignment-1/
 │   └── working-public-endpoint.png
 │
 ├── scripts/
-│   └── cloud-init.yml
+│   └── user_data.sh
 │
 ├── terraform-setup/
 │   ├── main.tf
@@ -56,14 +58,9 @@ assignment-1/
 │
 └── README.md
 ```
+## Notice :
 
-
-
-## Notice
-
-Environment-specific values are supplied via a local `terraform.tfvars` file which is excluded from version control.
-
-
+Environment-specific values are supplied via a local terraform.tfvars file which is excluded from version control.
 
 ## Infrastructure Provisioned via Terraform
 
@@ -85,18 +82,19 @@ This separation improves code organisation, reusability, and clarity.
 
 
 
-## Cloud-Init Configuration
+## User Data & Instance Configuration
 
-A **cloud-init YAML file** is passed to the EC2 instance using Terraform via the `user_data` argument.
+A **user data shell script** is passed to the EC2 instance using Terraform.
 
-During the first boot of the instance, cloud-init automatically:
+On first boot, the script automatically:
 
 - Updates system packages
-- Installs required software
-- Enables and starts services
-- Ensures the instance is fully configured and ready for use
+- Installs Docker and Docker Compose
+- Enables and starts the Docker service
+- Deploys WordPress and MySQL using Docker Compose
 
-Cloud-init runs **once per instance**, ensuring consistent and repeatable configuration without manual steps.
+This ensures the EC2 instance is fully configured without any manual intervention.
+
 
 
 ## Deployment Instructions
@@ -109,13 +107,12 @@ terraform plan
 terraform apply
 ```
 
-
 ## Verification
 
 After deployment:
 
-- Navigating to the EC2 instance’s public IP address confirms the service is running
-- The instance is fully configured immediately after launch with no manual intervention
+- Navigating to the EC2 instance’s public IP address in a web browser loads the WordPress installation page
+- WordPress is accessible over HTTP via port 80
 
 
 
@@ -123,7 +120,7 @@ After deployment:
 
 Screenshots of the working WordPress site can be found in [./screenshots](./screenshots)
 
----
+
 
 ## Outputs
 
@@ -131,25 +128,23 @@ Terraform exposes the following outputs:
 
 - EC2 public IP address
 
-These outputs provide quick access to the deployed instance.
+These outputs provide quick access to the deployed application.
 
 
 
 ## Key Concepts Demonstrated
 
 - Infrastructure as Code using Terraform
-- AWS EC2 provisioning
-- Cloud-init for automated instance configuration
+- AWS EC2 and networking fundamentals
 - Terraform module design and reuse
-- Secure and repeatable boot-time configuration
-- Eliminating manual server setup
-- Debugging cloud-init execution issues
-
+- Dynamic security group configuration
+- Automated instance bootstrapping using user data
+- Docker-based application deployment
+- Debugging and resolving real-world infrastructure issues
 
 
 ## Notes
 
 - All infrastructure resources are created and managed exclusively by Terraform
-- Cloud-init is used instead of a shell-based user data script
 - No manual configuration was performed on the EC2 instance
 - The deployment is fully reproducible and automated

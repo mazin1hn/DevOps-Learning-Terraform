@@ -115,6 +115,15 @@ variable "user_data_path" {
   default     = null
 }
 
+variable "vpc_id" {
+  type = string 
+  
+}
+
+variable "subnet_id" {
+  type = string 
+  
+}
 
 
 
