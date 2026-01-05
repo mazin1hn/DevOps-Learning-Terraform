@@ -30,6 +30,7 @@ This deployment consists of:
 
 Terraform modules are used to separate infrastructure logic from environment-specific configuration.
 
+The EC2 module consumes outputs from the VPC module to ensure clear separation of concerns and explicit infrastructure dependencies.
 
 
 ## Folder Structure
@@ -39,11 +40,6 @@ assignment-1/
 ├── docker-setup/
 │   └── docker-compose.yml
 │
-├── modules/ec2/
-│    └── ec2.tf
-│    └── outputs.tf
-│    └── variables.tf
-│
 ├── screenshots/
 │   └── working-public-endpoint.png
 │
@@ -51,10 +47,20 @@ assignment-1/
 │   └── user_data.sh
 │
 ├── terraform-setup/
-│   ├── main.tf
-│   ├── variables.tf
-│   ├── outputs.tf
-│   └── provider.tf
+│  ├── modules/
+│  │   ├── ec2/
+│  │   │   └── ec2.tf
+│  │   │   └── outputs.tf
+│  │   │   └── variables.tf
+│  │   └── vpc 
+│  │       └── vpc.tf
+│  │       └── outputs.tf
+│  │       └── variables.tf
+│  │ 
+│  ├── main.tf
+│  ├── outputs.tf
+│  ├── provider.tf
+│  └── variables.tf
 │
 └── README.md
 ```
@@ -66,17 +72,21 @@ Environment-specific values are supplied via a local terraform.tfvars file which
 
 ### Module-Based Infrastructure
 
-A reusable **EC2 module** is used to define all infrastructure resources, including:
+Infrastructure is defined using **separate, focused Terraform modules**, each responsible for a specific layer of the stack:
 
-- VPC
-- Subnet
-- Internet Gateway
-- Route table and route table association
-- Security group with dynamic ingress and egress rules
-- SSH key pair
-- EC2 instance
+- **VPC module**
+  - VPC
+  - Subnet
+  - Internet Gateway
+  - Route table and route table association
 
-The module contains all `resource` definitions, while the root Terraform configuration supplies environment-specific values via variables and `terraform.tfvars`.
+- **EC2 module**
+  - Security group with dynamic ingress and egress rules
+  - SSH key pair association
+  - EC2 instance
+
+Each module contains only the resources it owns, while shared values (such as VPC and subnet IDs) are passed between modules using Terraform outputs and input variables.  
+The root Terraform configuration supplies environment-specific values via variables and `terraform.tfvars`.
 
 This separation improves code organisation, reusability, and clarity.
 
